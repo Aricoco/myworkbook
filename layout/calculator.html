@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>JavaScript Loan Calculator</title>
+    <style> /*这是一个CSS样式表：定义了程序输出的样式*/
+    .output  {font-weight: bold;}/*计算结果定义为粗体*/
+    #payment {text-decoration: underline;}
+    #graph   {border: solid black 1px;}
+    th , td  {vertical-align: top;}
+    </style>
+</head>
+<body>
+<!--
+    这是一个HTML表格，其中包含<input>元素可以用来输入数据。
+    程序将在<span>元素中显示计算结果，这些元素都具有类似"interset"和"years"的id
+    这些id'将在表格下面的JavaScript代码中用到。我们注意到，有一些
+    input元素定义了"onchange"或"onclick"的事件处理程序，以便用户在输入数据或者点击inputs时
+    执行指定的JavaScript代码段
+-->
+<table>
+    <tr>
+        <th>Enter Loan Data:</th>
+        <td></td>
+        <th>Loan Balance,Cumulative Equity,and Interset Payments</th>
+    </tr>
+    <tr>
+        <td>Amount of the loan ($):</td>
+        <td><input id="amount" onchange="calculate();"></td>
+        <td rowspan="8">
+            <canvas id="graph" width="400" height="250"></canvas>
+        </td>
+    </tr>
+    <tr>
+        <td>Annual interest(%):</td>
+        <td><input id="apr" onchange="calculate();"></td>
+    </tr>
+    <tr>
+        <td>RePayment period</td>
+        <td><input id="years" onchange="calculate();"></td>
+    </tr>
+    <tr>
+        <td>Zipcode (to find lenders)</td>
+        <td><input id="zipcode" onchange="calculate();"></td>
+    </tr>
+    <tr>
+        <th>Approximate Payments:</th>
+        <td><button onclick="calculate();">Calculate</button></td>
+    </tr>
+    <tr>
+        <td>Monthly payment:</td>
+        <td>$<span class="output" id="payment"></span></td>
+    </tr>
+    <tr>
+        <td>Total payment:</td>
+        <td>$<span class="output" id="total"></span></td>
+    </tr>
+    <tr>
+        <td>Total interest</td>
+        <td>$<span class="output" id="totalinterest"></span></td>
+    </tr>
+    <tr>
+        <th>Sponsors:</th>
+        <td colspan="2">Apply for your loan with one of these fine lenders:
+            <div id="lenders"></div>
+        </td>
+    </tr>
+</table>
+
+<script>
+    "use strict";  //开启ECMAScript 5的严格模式
+    function calculator(){
+        var amount = document.getElementById("amount");
+        var apr = document.getElementById("apr");
+        var years = document.getElementById("years");
+        var zipcode = document.getElementById("zipcode");
+        var payment = document.getElementById("payment");
+        var total = document.getElementById("total");
+        var totalinterest = document.getElementById("totalinterest");
+
+        var principal = parsFloat(amount.value) ;
+        var interest = parsFloat(apr.value)/100/12 ;  //将百分比格式转化为小数格式，并从年利率转化为月利率
+        var payments = parsFloat(years.value)*12 ;    //将年度赔付转化为月度赔付
+
+        var x = Math.pow(1 + interest, payments) ;    //Math.pow()进行幂次运算
+    }
+</script>
+
+</body>
+</html>
